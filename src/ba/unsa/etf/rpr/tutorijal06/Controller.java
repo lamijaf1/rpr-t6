@@ -33,10 +33,19 @@ public class Controller {
         }
         return !n.trim().isEmpty();
     }
+
     private boolean validnoPrezime(String n) {
+        if(n.length()<2 || n.length()>20)return false;
+        for(int i=0;i<n.length();i++){
+            if(n.charAt(i)<'A'|| n.charAt(i)>'Ž' || n.charAt(i)<'a' ||  n.charAt(i)>'ž') return false;
+        }
         return !n.trim().isEmpty();
     }
     private boolean validanIndeks(String n) {
+        if(n.length()>5)return false;
+        for(int i=0;i<n.length();i++){
+            if(!(n.charAt(i)>='0'&& n.charAt(i)<'9')) return false;
+        }
         return !n.trim().isEmpty();
     }
     public boolean formularValidan() {
