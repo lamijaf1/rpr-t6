@@ -15,8 +15,8 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1"
-    fx:controller="ba.unsa.etf.rpr.tutorijal06.Controller" >
+<?import javafx.scene.control.ComboBox?>
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="221.0" prefWidth="430.0" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ba.unsa.etf.rpr.tutorijal06.Controller">
     <stylesheets>
         <URL value="@formular.css" />
     </stylesheets>
@@ -47,7 +47,7 @@
       <Label prefHeight="26.0" prefWidth="102.0" text="Prezime:" GridPane.rowIndex="1" />
       <Label prefHeight="26.0" prefWidth="102.0" text="Broj indeksa:" GridPane.rowIndex="2" />
       <TextField fx:id="imeField" GridPane.columnIndex="1" />
-      <TextField fx:id="prezimeField" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="prezimeField"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="indeksField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <Separator prefWidth="200.0" GridPane.rowIndex="3" />
@@ -59,7 +59,7 @@
       <Label prefHeight="25.0" prefWidth="103.0" text="  JMBG:" GridPane.columnIndex="3" />
       <Label prefHeight="24.0" prefWidth="103.0" text="  Datum rođenja:" GridPane.columnIndex="3" GridPane.rowIndex="1" />
       <Label prefWidth="108.0" text="  Mjesto rođenja:" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <ChoiceBox prefHeight="25.0" prefWidth="101.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
+       <ComboBox editable="true" prefHeight="25.0" prefWidth="101.0" GridPane.columnIndex="4" GridPane.rowIndex="2">
        <items>
            <FXCollections fx:factory="observableArrayList">
                <String fx:value="Sarajevo" />
@@ -67,12 +67,10 @@
                <String fx:value="Mostar" />
                <String fx:value="Tuzla" />
                <String fx:value="Bihać" />
-               <String fx:value="Banja Luka" />
-               <String fx:value="Banja Luka" />
                <String fx:value="Cazin" />
            </FXCollections>
        </items>
-      </ChoiceBox>
+      </ComboBox>
       <Separator prefWidth="200.0" GridPane.columnIndex="3" GridPane.rowIndex="3" />
       <Separator prefWidth="200.0" GridPane.columnIndex="4" GridPane.rowIndex="3" />
       <Label prefHeight="24.0" prefWidth="102.0" text="Adresa:" GridPane.rowIndex="4" />
@@ -111,7 +109,7 @@
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" GridPane.rowIndex="4" />
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" GridPane.rowIndex="5" />
       <Separator orientation="VERTICAL" prefHeight="200.0" GridPane.columnIndex="2" GridPane.rowIndex="6" />
-      <ChoiceBox prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="6" >
+      <ChoiceBox prefWidth="150.0" GridPane.columnIndex="4" GridPane.rowIndex="6">
           <items>
               <FXCollections fx:factory="observableArrayList">
                   <String fx:value="redovan" />

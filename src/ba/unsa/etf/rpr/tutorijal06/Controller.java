@@ -31,8 +31,9 @@ public class Controller {
         prezimeValidno=false;
         imeField.getStyleClass().add("poljeNijeIspravno");
         prezimeField.getStyleClass().add("poljeNijeIspravno");
+        indeksField.getStyleClass().add("poljeNijeIspravno");
 
-       /* imePrezimeField.textProperty().addListener(new ChangeListener<String>() {
+        /*imePrezimeField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
                 if (validnoImePrezime(n)) {
