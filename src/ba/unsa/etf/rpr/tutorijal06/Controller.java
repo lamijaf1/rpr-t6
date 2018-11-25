@@ -33,20 +33,34 @@ public class Controller {
         prezimeField.getStyleClass().add("poljeNijeIspravno");
         indeksField.getStyleClass().add("poljeNijeIspravno");
 
-        /*imePrezimeField.textProperty().addListener(new ChangeListener<String>() {
+        imeField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
-                if (validnoImePrezime(n)) {
-                    imePrezimeField.getStyleClass().removeAll("poljeNijeIspravno");
-                    imePrezimeField.getStyleClass().add("poljeIspravno");
-                    imePrezimeValidno = true;
+                if (validnoIme(n)) {
+                    imeField.getStyleClass().removeAll("poljeNijeIspravno");
+                    imeField.getStyleClass().add("poljeIspravno");
+                    imeValidno= true;
                 } else {
-                    imePrezimeField.getStyleClass().removeAll("poljeIspravno");
-                    imePrezimeField.getStyleClass().add("poljeNijeIspravno");
-                    imePrezimeValidno = false;
+                    imeField.getStyleClass().removeAll("poljeIspravno");
+                    imeField.getStyleClass().add("poljeNijeIspravno");
+                    imeValidno = false;
                 }
             }
-        });*/
+        });
+        prezimeField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                if (validnoIme(n)) {
+                    prezimeField.getStyleClass().removeAll("poljeNijeIspravno");
+                    prezimeField.getStyleClass().add("poljeIspravno");
+                    prezimeValidno= true;
+                } else {
+                    prezimeField.getStyleClass().removeAll("poljeIspravno");
+                    prezimeField.getStyleClass().add("poljeNijeIspravno");
+                    prezimeValidno = false;
+                }
+            }
+        });
     }
 
 }
