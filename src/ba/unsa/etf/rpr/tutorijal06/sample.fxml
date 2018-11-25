@@ -47,7 +47,7 @@
       <Label prefHeight="26.0" prefWidth="102.0" text="Prezime:" GridPane.rowIndex="1" />
       <Label prefHeight="26.0" prefWidth="102.0" text="Broj indeksa:" GridPane.rowIndex="2" />
       <TextField fx:id="imeField" GridPane.columnIndex="1" />
-      <TextField fx:id="prezimeField"  GridPane.columnIndex="1" GridPane.rowIndex="1" />
+      <TextField fx:id="prezimeField"   text="${controller.prezime}" GridPane.columnIndex="1" GridPane.rowIndex="1" />
       <TextField fx:id="indeksField" GridPane.columnIndex="1" GridPane.rowIndex="2" />
       <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
       <Separator prefWidth="200.0" GridPane.rowIndex="3" />
