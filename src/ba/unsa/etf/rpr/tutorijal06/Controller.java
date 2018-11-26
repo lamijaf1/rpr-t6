@@ -3,6 +3,7 @@ package ba.unsa.etf.rpr.tutorijal06;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -152,10 +153,17 @@ public class Controller {
                     emailField.getStyleClass().add("poljeNijeIspravno");
                     emailValidno = false;
                 }
-                //DodajUFormular(jmbgField.getText());
             }
         });
-        System.out.println(spasiFormular);
+
+    }
+    public void dugmeKliknuto(ActionEvent actionEvent){
+        String ime=imeField.getText();
+        String prezime=prezimeField.getText();
+        String datum=datumField.getText();
+        String jmbg=jmbgField.getText();
+        String email=emailField.getText();
+        System.out.println(ime+prezime+datum+jmbg+email);
 
     }
 

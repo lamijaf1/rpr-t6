@@ -130,6 +130,6 @@
               </FXCollections>
           </items>
       </ChoiceBox>
-      <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="194.0" text="Potvrdi" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
+      <Button mnemonicParsing="false" prefHeight="25.0" onAction="#dugmeKliknuto" prefWidth="194.0" text="Potvrdi" GridPane.columnIndex="1" GridPane.columnSpan="3" GridPane.rowIndex="9" />
    </children>
 </GridPane>
