@@ -57,7 +57,7 @@ public class Controller {
         return !n.trim().isEmpty();
     }
     private boolean validanUnosEmail(String n) {
-        for (int i = 0; i < n.length(); i++) if (n.charAt(i) == '@') return true;
+        //for (int i = 0; i < n.length(); i++) if (n.charAt(i) == '@') return true;
         return isValidEmail(n);
     }
     private boolean validanIndeks(String n) {
