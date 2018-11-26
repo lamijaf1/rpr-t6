@@ -48,11 +48,12 @@ public class Controller {
     private boolean jmbgValidno;
     private boolean datumValidno;
     private boolean emailValidno;
+    private  boolean telephoneValidno;
     public String uporediSaJmbg = "";
     public String datumZaIspis = "";
     private Controller novi;
     public boolean formularValidan() {
-        return (imeValidno && prezimeValidno && indeksValidan && jmbgValidno && datumValidno && emailValidno);
+        return (imeValidno && prezimeValidno && indeksValidan && jmbgValidno && datumValidno && emailValidno && telephoneValidno);
     }
 
     private boolean validnoImePrezime(String n) {
@@ -95,12 +96,14 @@ public class Controller {
         jmbgValidno = false;
         datumValidno = false;
         emailValidno = false;
+        telephoneValidno=false;
         imeField.getStyleClass().add("poljeNijeIspravno");
         prezimeField.getStyleClass().add("poljeNijeIspravno");
         indeksField.getStyleClass().add("poljeNijeIspravno");
         jmbgField.getStyleClass().add("poljeNijeIspravno");
         datumField.getStyleClass().add("poljeNijeIspravno");
         emailField.getStyleClass().add("poljeNijeIspravno");
+        telefonField.getStyleClass().add("poljeNijeIspravno");
         imeField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
@@ -219,7 +222,8 @@ public class Controller {
             emailValidno = false;
             emailField.getStyleClass().add("poljeNijeIspravno");
         }
-
+        telephoneValidno=isValidTelephone(telefonField.getText());
+        if(telephoneValidno)telefonField.getStyleClass().add("poljeIspravno");
         if (formularValidan()) {
             System.out.println("Student: " + ime + " " + prezime + " ( " + indeksField.getText() + " )");
             System.out.println("JMBG: " + jmbg + ", datum rođenja: " + datumZaIspis);
@@ -234,10 +238,6 @@ public class Controller {
             alert.setTitle("Nije validno");
             alert.setHeaderText("Popunjeni formular nije validan");
             alert.setContentText("Podaci označeni crvenom bojom su pogrešni, ili nedostaju");
-            /*if(!imeValidno) alert.setContentText("Ime je prazno, ili nije validno");
-            if(!prezimeValidno) alert.setContentText("Prezime je prazno, ili nije validno");
-            if(!indeksValidan) alert.setContentText("Pogresan unos indeksa");
-            else alert.setContentText("Podaci označeni crvenom bojom su pogrešni, ili nedostaju");*/
             alert.show();
         }
 
@@ -247,6 +247,14 @@ public class Controller {
     public static boolean isValidEmail(String emailStr){
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
         return matcher.find();
+    }
+    public static boolean isValidTelephone(String nmbr){
+        //System.out.println(nmbr);
+        Pattern pattern = Pattern.compile("\\d{3}-\\d{7}");
+        Pattern pattern1 = Pattern.compile("\\d{3}-\\d{6}");
+        Matcher matcher = pattern.matcher(nmbr);
+        Matcher matcher1 = pattern1.matcher(nmbr);
+        return (matcher.matches()|| matcher1.matches());
     }
     public boolean isDateValid(String s) {
         if(s.length()<8)return false;
