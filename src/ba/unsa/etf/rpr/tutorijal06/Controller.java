@@ -10,9 +10,11 @@ public class Controller {
     public TextField imeField;
     public TextField prezimeField;
     public TextField indeksField;
+    public TextField jmbgField;
     private boolean imeValidno;
     private boolean prezimeValidno;
     private boolean indeksValidan;
+    private boolean jmbgValidno;
     private SimpleStringProperty prezime;
     public String getTekst() {
         return prezime.get();
@@ -26,7 +28,7 @@ public class Controller {
     public void setTekst(String tekst) {
         this.prezime.set(tekst);
     }
-    private boolean validnoIme(String n) {
+    private boolean validnoImePrezime(String n) {
         if(n.length()<2 || n.length()>20)return false;
         for(int i=0;i<n.length();i++){
             if(n.charAt(i)<'A'|| n.charAt(i)>'Ž' || n.charAt(i)<'a' ||  n.charAt(i)>'ž') return false;
@@ -34,11 +36,7 @@ public class Controller {
         return !n.trim().isEmpty();
     }
 
-    private boolean validnoPrezime(String n) {
-        if(n.length()<2 || n.length()>20)return false;
-        for(int i=0;i<n.length();i++){
-            if(n.charAt(i)<'A'|| n.charAt(i)>'Ž' || n.charAt(i)<'a' ||  n.charAt(i)>'ž') return false;
-        }
+    private boolean validanUnos(String n) {
         return !n.trim().isEmpty();
     }
     private boolean validanIndeks(String n) {
@@ -58,11 +56,12 @@ public class Controller {
         imeField.getStyleClass().add("poljeNijeIspravno");
         prezimeField.getStyleClass().add("poljeNijeIspravno");
         indeksField.getStyleClass().add("poljeNijeIspravno");
+        jmbgField.getStyleClass().add("poljeNijeIspravno");
 
         imeField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
-                if (validnoIme(n)) {
+                if (validnoImePrezime(n)) {
                     imeField.getStyleClass().removeAll("poljeNijeIspravno");
                     imeField.getStyleClass().add("poljeIspravno");
                     imeValidno= true;
@@ -76,7 +75,7 @@ public class Controller {
         prezimeField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
-                if (validnoPrezime(n)) {
+                if (validnoImePrezime(n)) {
                     prezimeField.getStyleClass().removeAll("poljeNijeIspravno");
                     prezimeField.getStyleClass().add("poljeIspravno");
                     prezimeValidno= true;
@@ -98,6 +97,20 @@ public class Controller {
                     indeksField.getStyleClass().removeAll("poljeIspravno");
                     indeksField.getStyleClass().add("poljeNijeIspravno");
                     indeksValidan = false;
+                }
+            }
+        });
+        jmbgField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                if (validanUnos(n)) {
+                    jmbgField.getStyleClass().removeAll("poljeNijeIspravno");
+                    jmbgField.getStyleClass().add("poljeIspravno");
+                    jmbgValidno= true;
+                } else {
+                    jmbgField.getStyleClass().removeAll("poljeIspravno");
+                    jmbgField.getStyleClass().add("poljeNijeIspravno");
+                    jmbgValidno = false;
                 }
             }
         });
