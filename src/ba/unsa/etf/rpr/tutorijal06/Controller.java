@@ -19,6 +19,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Controller {
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public ComboBox mjestoRod;
     public TextField imeField;
     public TextField prezimeField;
@@ -45,6 +47,9 @@ public class Controller {
     }
     private boolean validanUnos(String n) {
         if(n.length()!=13)return false;
+        for(int i=0;i<n.length();i++){
+            if(!(n.charAt(i)>='0'&& n.charAt(i)<='9'))return false;
+        }
         return !n.trim().isEmpty();
     }
     private boolean validanUnosEmail(String n) {
@@ -56,7 +61,6 @@ public class Controller {
         for(int i=0;i<n.length();i++) if(!(n.charAt(i)>='0'&& n.charAt(i)<'9')) return false;
         return !n.trim().isEmpty();
     }
-    public boolean formularValidan() {return (imeValidno&&prezimeValidno && indeksValidan);}
     @FXML
     public void initialize() {
         imeValidno = false;
@@ -165,13 +169,15 @@ public class Controller {
         String jmbg=jmbgField.getText();
         String izdvojiDatum="";
         if(jmbg.length()==13)izdvojiDatum=jmbg.substring(0,7);
+        //System.out.println(izdvojiDatum);
         if (isDateValid(datum)) {
                 System.out.println(datum);
         } else {
             datumValidno = false;
             datumField.getStyleClass().add("poljeNijeIspravno");
         }
-        if(izdvojiDatum.equals(uporediSaJmbg)){
+
+        if( izdvojiDatum!="" && izdvojiDatum.equals(uporediSaJmbg)){
             jmbgValidno=true;
             System.out.println(jmbg);
         }else{
@@ -190,8 +196,7 @@ public class Controller {
 
 
     }
-    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
-            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
     public static boolean isValidEmail(String emailStr){
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
         return matcher.find();
