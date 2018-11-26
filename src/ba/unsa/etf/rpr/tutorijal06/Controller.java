@@ -190,11 +190,11 @@ public class Controller {
 
 
     }
-    public static boolean isValidEmail(String enteredEmail){
-        String EMAIL_REGIX = "^[\\\\w!#$%&’*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$";
-        Pattern pattern = Pattern.compile(EMAIL_REGIX);
-        Matcher matcher = pattern.matcher(enteredEmail);
-        return ((!enteredEmail.isEmpty()) && (enteredEmail!=null) && (matcher.matches()));
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
+            Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static boolean isValidEmail(String emailStr){
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX .matcher(emailStr);
+        return matcher.find();
     }
     public boolean isDateValid(String s) {
         if(s.length()<8)return false;
