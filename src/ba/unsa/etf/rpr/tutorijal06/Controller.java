@@ -53,6 +53,7 @@ public class Controller {
     public void initialize() {
         imeValidno = false;
         prezimeValidno=false;
+        indeksValidan=false;
         imeField.getStyleClass().add("poljeNijeIspravno");
         prezimeField.getStyleClass().add("poljeNijeIspravno");
         indeksField.getStyleClass().add("poljeNijeIspravno");
