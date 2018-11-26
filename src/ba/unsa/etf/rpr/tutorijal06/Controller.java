@@ -8,7 +8,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -27,6 +32,7 @@ public class Controller {
     private boolean jmbgValidno;
     private boolean datumValidno;
     private boolean emailValidno;
+    public String uporediSaJmbg="";
     private boolean validnoImePrezime(String n) {
         if(n.length()<2 || n.length()>20)return false;
         for(int i=0;i<n.length();i++){
@@ -157,15 +163,31 @@ public class Controller {
         String prezime=prezimeField.getText();
         String datum=datumField.getText();
         String jmbg=jmbgField.getText();
+        String izdvojiDatum="";
+        if(jmbg.length()==13)izdvojiDatum=jmbg.substring(0,7);
+        if (isDateValid(datum)) {
+                System.out.println(datum);
+        } else {
+            datumValidno = false;
+            datumField.getStyleClass().add("poljeNijeIspravno");
+        }
+        if(izdvojiDatum.equals(uporediSaJmbg)){
+            jmbgValidno=true;
+            System.out.println(jmbg);
+        }else{
+            jmbgValidno=false;
+            jmbgField.getStyleClass().add("poljeNijeIspravno");
+        }
         String email=emailField.getText();
-        if(isValidEmail(email)==true){
+        if(isValidEmail(email)){
             emailValidno=true;
             System.out.println(email);
         }
-        else emailValidno=false;
+        else {
+            emailValidno=false;
+            emailField.getStyleClass().add("poljeNijeIspravno");
+        }
 
-        System.out.println(rod);
-        System.out.println(ime+prezime+datum+jmbg+email);
 
     }
     public static boolean isValidEmail(String enteredEmail){
@@ -174,15 +196,37 @@ public class Controller {
         Matcher matcher = pattern.matcher(enteredEmail);
         return ((!enteredEmail.isEmpty()) && (enteredEmail!=null) && (matcher.matches()));
     }
-    /*public static boolean isValidEmailAddress(String email) {
-        boolean stricterFilter = true;
-        String stricterFilterString = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
-        String laxString = ".+@.+\\.[A-Za-z]{2}[A-Za-z]*";
-        String emailRegex = stricterFilter ? stricterFilterString : laxString;
-        java.util.regex.Pattern p = java.util.regex.Pattern.compile(emailRegex);
-        java.util.regex.Matcher m = p.matcher(email);
-        return m.matches();
-    }*/
+    public boolean isDateValid(String s) {
+        if(s.length()<8)return false;
+        int d = 0, m = 0, g = 0;
+        String dan = "", mjesec = "", godina = "";
+        if (s.length() == 8) {
+            dan = s.substring(0, 2);
+            mjesec = s.substring(2, 4);
+            godina = s.substring(4, 8);
+        }
+        else if (s.length() == 10) {
+            if (s.charAt(2) == s.charAt(5) && (s.charAt(2) == '.' || s.charAt(2) == '/' | s.charAt(2) == '-')) {
+                dan = s.substring(0, 2);
+                mjesec = s.substring(3, 5);
+                godina = s.substring(6, 10);
+            }
+        } else return false;
+        d=Integer.parseInt(dan);
+        m=Integer.parseInt(mjesec);
+        g=Integer.parseInt(godina);
+        int novaG=Integer.parseInt(godina.substring(1,godina.length()));
+        uporediSaJmbg=""+dan+mjesec+novaG;
+        System.out.println("Uporedi:"+ uporediSaJmbg);
+        if(d==0 || m==0 || g==0 )return false;
+        boolean dateIsValid = true;
+        try {
+            LocalDate.of(g, m, d);
+        } catch (DateTimeException e) {
+            dateIsValid = false;
+        }
+        return dateIsValid;
 
+    }
 
 }
