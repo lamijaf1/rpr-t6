@@ -25,12 +25,6 @@ public class Controller {
     private boolean jmbgValidno;
     private boolean datumValidno;
     private boolean emailValidno;
-    public static String spasiFormular="";
-    public  static void DodajUFormular(String dodaj) {
-        spasiFormular += dodaj;
-
-    }
-
     private boolean validnoImePrezime(String n) {
         if(n.length()<2 || n.length()>20)return false;
         for(int i=0;i<n.length();i++){
@@ -44,6 +38,10 @@ public class Controller {
     private boolean validanUnos(String n) {
         if(n.length()!=13)return false;
         return !n.trim().isEmpty();
+    }
+    private boolean validanUnosEmail(String n) {
+        for(int i=0;i<n.length();i++)if(n.charAt(i)=='@')return true;
+        return false;
     }
     private boolean validanIndeks(String n) {
         if(n.length()>5)return false;
@@ -99,7 +97,6 @@ public class Controller {
                 if (validanIndeks(n)) {
                     indeksField.getStyleClass().removeAll("poljeNijeIspravno");
                     indeksField.getStyleClass().add("poljeIspravno");
-
                     indeksValidan= true;
                 } else {
                     indeksField.getStyleClass().removeAll("poljeIspravno");
@@ -108,6 +105,7 @@ public class Controller {
                 }
             }
         });
+
         jmbgField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
@@ -120,7 +118,6 @@ public class Controller {
                     jmbgField.getStyleClass().add("poljeNijeIspravno");
                     jmbgValidno = false;
                 }
-                DodajUFormular(jmbgField.getText());
             }
         });
         datumField.textProperty().addListener(new ChangeListener<String>() {
@@ -129,22 +126,18 @@ public class Controller {
                 if (validanUnosDatum(n)) {
                     datumField.getStyleClass().removeAll("poljeNijeIspravno");
                     datumField.getStyleClass().add("poljeIspravno");
-                    jmbgValidno= true;
+                    datumValidno= true;
                 } else {
                     datumField.getStyleClass().removeAll("poljeIspravno");
                     datumField.getStyleClass().add("poljeNijeIspravno");
                     datumValidno = false;
                 }
-                DodajUFormular(datumField.getText());
-
-
             }
-
         });
         emailField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
-                if (validanUnos(n)) {
+                if (validanUnosEmail(n)) {
                     emailField.getStyleClass().removeAll("poljeNijeIspravno");
                     emailField.getStyleClass().add("poljeIspravno");
                     emailValidno= true;
@@ -155,14 +148,16 @@ public class Controller {
                 }
             }
         });
-
     }
+
     public void dugmeKliknuto(ActionEvent actionEvent){
+        String rod=mjestoRod.getEditor().getText();
         String ime=imeField.getText();
         String prezime=prezimeField.getText();
         String datum=datumField.getText();
         String jmbg=jmbgField.getText();
         String email=emailField.getText();
+        System.out.println(rod);
         System.out.println(ime+prezime+datum+jmbg+email);
 
     }
