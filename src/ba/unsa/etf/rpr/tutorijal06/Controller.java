@@ -5,6 +5,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 
@@ -22,12 +24,18 @@ public class Controller {
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
     public ComboBox mjestoRod;
+    public ChoiceBox status;
+    public ChoiceBox godina;
+    public ChoiceBox smjer;
+    public CheckBox pripadnost;
     public TextField imeField;
     public TextField prezimeField;
     public TextField indeksField;
     public TextField jmbgField;
     public TextField datumField;
     public TextField emailField;
+    public TextField ulicaField;
+    public TextField telefonField;
     private boolean imeValidno;
     private boolean prezimeValidno;
     private boolean indeksValidan;
@@ -35,10 +43,11 @@ public class Controller {
     private boolean datumValidno;
     private boolean emailValidno;
     public String uporediSaJmbg="";
+    public String datumZaIspis="";
     private boolean validnoImePrezime(String n) {
         if(n.length()<2 || n.length()>20)return false;
         for(int i=0;i<n.length();i++){
-            if(n.charAt(i)<'A'|| n.charAt(i)>'Ž' || n.charAt(i)<'a' ||  n.charAt(i)>'ž') return false;
+            if(!(n.charAt(i)>='A'&& n.charAt(i)<='Ž') && !(n.charAt(i)>='a'&& n.charAt(i)<='ž') ) return false;
         }
         return !n.trim().isEmpty();
     }
@@ -171,7 +180,8 @@ public class Controller {
         if(jmbg.length()==13)izdvojiDatum=jmbg.substring(0,7);
         //System.out.println(izdvojiDatum);
         if (isDateValid(datum)) {
-                System.out.println(datum);
+                //System.out.println(datum);
+            datumValidno=true;
         } else {
             datumValidno = false;
             datumField.getStyleClass().add("poljeNijeIspravno");
@@ -179,7 +189,7 @@ public class Controller {
 
         if( izdvojiDatum!="" && izdvojiDatum.equals(uporediSaJmbg)){
             jmbgValidno=true;
-            System.out.println(jmbg);
+           // System.out.println(jmbg);
         }else{
             jmbgValidno=false;
             jmbgField.getStyleClass().add("poljeNijeIspravno");
@@ -187,13 +197,22 @@ public class Controller {
         String email=emailField.getText();
         if(isValidEmail(email)){
             emailValidno=true;
-            System.out.println(email);
+
         }
         else {
             emailValidno=false;
             emailField.getStyleClass().add("poljeNijeIspravno");
         }
 
+        if(imeValidno && prezimeValidno && indeksValidan && jmbgValidno && datumValidno && emailValidno){
+            System.out.println("Student: "+ime+" "+prezime+" ( "+indeksField.getText()+" )");
+            System.out.println("JMBG: "+ jmbg+", datum rođenja: "+ datumZaIspis);
+            System.out.println("Ulica stanovanja: "+ ulicaField.getText()+ ",broj telefona: "+ telefonField.getText());
+            System.out.println("Email adresa: "+ email);
+            System.out.println(status.getValue().toString()+" student, smjer: "+smjer.getValue().toString()+"godina: "+godina.getValue());
+            if(pripadnost.isSelected()) System.out.println("Postoji neka od boračke pripadnosti");
+            else System.out.println("Ne postoji nikakva boračka pripadnost");
+        }
 
     }
 
@@ -220,9 +239,10 @@ public class Controller {
         d=Integer.parseInt(dan);
         m=Integer.parseInt(mjesec);
         g=Integer.parseInt(godina);
+        datumZaIspis=""+ d+"/"+m+"/"+g;
         int novaG=Integer.parseInt(godina.substring(1,godina.length()));
         uporediSaJmbg=""+dan+mjesec+novaG;
-        System.out.println("Uporedi:"+ uporediSaJmbg);
+        //System.out.println("Uporedi:"+ uporediSaJmbg);
         if(d==0 || m==0 || g==0 )return false;
         boolean dateIsValid = true;
         try {

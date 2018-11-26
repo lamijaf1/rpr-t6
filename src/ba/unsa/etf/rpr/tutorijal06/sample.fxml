@@ -89,13 +89,13 @@
       <Label prefHeight="24.0" prefWidth="102.0" text="Adresa:" GridPane.rowIndex="4" />
       <Label prefHeight="22.0" prefWidth="102.0" text="Telefon:" GridPane.rowIndex="5" />
       <Label prefHeight="26.0" prefWidth="102.0" text="Email:" GridPane.rowIndex="6" />
-      <TextField prefHeight="25.0" prefWidth="77.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-      <TextField prefHeight="25.0" prefWidth="78.0" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+      <TextField prefHeight="25.0"  fx:id="ulicaField"  prefWidth="77.0" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+      <TextField prefHeight="25.0" prefWidth="78.0" fx:id="telefonField"  GridPane.columnIndex="1" GridPane.rowIndex="5" />
       <TextField prefHeight="25.0" prefWidth="65.0" fx:id="emailField" GridPane.columnIndex="1" GridPane.rowIndex="6" />
       <Label prefHeight="17.0" prefWidth="105.0" text="Odsjek:" GridPane.columnIndex="3" GridPane.rowIndex="4" />
       <Label text="Godina studija" GridPane.columnIndex="3" GridPane.rowIndex="5" />
       <Label prefHeight="17.0" prefWidth="106.0" text="Status studenta:" GridPane.columnIndex="3" GridPane.rowIndex="6" />
-      <CheckBox contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="17.0" prefWidth="164.0" text="Boračka pripadnost" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="7" />
+      <CheckBox contentDisplay="RIGHT" mnemonicParsing="false" prefHeight="17.0" prefWidth="164.0" fx:id="pripadnost" text="Boračka pripadnost" GridPane.columnIndex="3" GridPane.columnSpan="2" GridPane.rowIndex="7" />
       <ChoiceBox prefWidth="101.0" fx:id="smjer" GridPane.columnIndex="4" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
        <items>
            <FXCollections fx:factory="observableArrayList">
