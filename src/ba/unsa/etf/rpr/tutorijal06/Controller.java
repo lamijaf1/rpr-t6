@@ -51,11 +51,9 @@ public class Controller {
     private  boolean telephoneValidno;
     public String uporediSaJmbg = "";
     public String datumZaIspis = "";
-    private Controller novi;
     public boolean formularValidan() {
         return (imeValidno && prezimeValidno && indeksValidan && jmbgValidno && datumValidno && emailValidno && telephoneValidno);
     }
-
     private boolean validnoImePrezime(String n) {
         if (n.length() < 2 || n.length() > 20) return false;
         for (int i = 0; i < n.length(); i++) {
@@ -64,11 +62,10 @@ public class Controller {
         }
         return !n.trim().isEmpty();
     }
-
     private boolean validanUnosDatum(String n) {
-        return !n.trim().isEmpty();
-    }
 
+        return isDateValid(n);
+    }
     private boolean validanUnos(String n) {
         if (n.length() != 13) return false;
         for (int i = 0; i < n.length(); i++) {
@@ -76,16 +73,18 @@ public class Controller {
         }
         return !n.trim().isEmpty();
     }
-
     private boolean validanUnosEmail(String n) {
         for (int i = 0; i < n.length(); i++) if (n.charAt(i) == '@') return true;
-        return false;
+        return isValidEmail(n);
     }
-
     private boolean validanIndeks(String n) {
         if (n.length() > 5) return false;
         for (int i = 0; i < n.length(); i++) if (!(n.charAt(i) >= '0' && n.charAt(i) < '9')) return false;
         return !n.trim().isEmpty();
+    }
+    private boolean validanUnosTelefon(String n){
+
+        return isValidTelephone(n);
     }
 
     @FXML
@@ -188,6 +187,20 @@ public class Controller {
                 }
             }
         });
+        telefonField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
+                if (validanUnosTelefon(n)) {
+                    telefonField.getStyleClass().removeAll("poljeNijeIspravno");
+                    telefonField.getStyleClass().add("poljeIspravno");
+                    telephoneValidno = true;
+                } else {
+                    telefonField.getStyleClass().removeAll("poljeIspravno");
+                    telefonField.getStyleClass().add("poljeNijeIspravno");
+                    telephoneValidno = false;
+                }
+            }
+        });
     }
 
     public void dugmeKliknuto(ActionEvent actionEvent) {
@@ -198,18 +211,15 @@ public class Controller {
         String jmbg = jmbgField.getText();
         String izdvojiDatum = "";
         if (jmbg.length() == 13) izdvojiDatum = jmbg.substring(0, 7);
-        //System.out.println(izdvojiDatum);
         if (isDateValid(datum)) {
-            //System.out.println(datum);
             datumValidno = true;
         } else {
             datumValidno = false;
             datumField.getStyleClass().add("poljeNijeIspravno");
         }
 
-        if (izdvojiDatum != "" && izdvojiDatum.equals(uporediSaJmbg)) {
+        if (isJmbgValid(jmbg) && izdvojiDatum != "" && izdvojiDatum.equals(uporediSaJmbg)) {
             jmbgValidno = true;
-            // System.out.println(jmbg);
         } else {
             jmbgValidno = false;
             jmbgField.getStyleClass().add("poljeNijeIspravno");
@@ -272,9 +282,11 @@ public class Controller {
                 godina = s.substring(6, 10);
             }
         } else return false;
-        d=Integer.parseInt(dan);
-        m=Integer.parseInt(mjesec);
-        g=Integer.parseInt(godina);
+        try {
+            d = Integer.parseInt(dan);
+            m = Integer.parseInt(mjesec);
+            g = Integer.parseInt(godina);
+        }catch (Exception ex){}
         datumZaIspis=""+ d+"/"+m+"/"+g;
         int novaG=Integer.parseInt(godina.substring(1,godina.length()));
         uporediSaJmbg=""+dan+mjesec+novaG;
@@ -289,5 +301,16 @@ public class Controller {
         return dateIsValid;
 
     }
+    public boolean isJmbgValid(String jmbg){
+            int politickaRegija = (jmbg.charAt(7) - '0') * 10 + (jmbg.charAt(8) - '0');
+            if (politickaRegija < 0 || politickaRegija > 96) return false;
+            int jedinstveniBroj = (jmbg.charAt(9) - '0') * 100 + (jmbg.charAt(10) - '0') * 10 + (jmbg.charAt(11) - '0');
+            if (!((jedinstveniBroj>  0 &&jedinstveniBroj <= 499)||(jedinstveniBroj>=500 &&jedinstveniBroj<=999))) return false;
+            int kontrolnaCifra = 11 - ((7 * ((jmbg.charAt(0) - '0') + (jmbg.charAt(6) - '0')) + 6 * ((jmbg.charAt(1) - '0') + (jmbg.charAt(7) - '0')) + 5 * ((jmbg.charAt(2) - '0') + (jmbg.charAt(8) - '0')) + 4 * ((jmbg.charAt(3) - '0') + (jmbg.charAt(9) - '0')) + 3 * ((jmbg.charAt(4) - '0') + (jmbg.charAt(10) - '0')) + 2 * ((jmbg.charAt(5) - '0') + (jmbg.charAt(11) - '0'))) % 11);
+            if (kontrolnaCifra > 9) kontrolnaCifra = 0;
+            if (kontrolnaCifra != (jmbg.charAt(12) - '0')) return false;
+            return true;
+        }
+
 
 }
