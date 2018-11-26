@@ -229,31 +229,18 @@ public class Controller {
             if (pripadnost.isSelected()) System.out.println("Postoji neka od boračke pripadnosti");
             else System.out.println("Ne postoji nikakva boračka pripadnost");
         }
+        if (!formularValidan()) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Nije validno");
+            alert.setHeaderText("Popunjeni formular nije validan");
+            alert.setContentText("Podaci označeni crvenom bojom su pogrešni, ili nedostaju");
+            /*if(!imeValidno) alert.setContentText("Ime je prazno, ili nije validno");
+            if(!prezimeValidno) alert.setContentText("Prezime je prazno, ili nije validno");
+            if(!indeksValidan) alert.setContentText("Pogresan unos indeksa");
+            else alert.setContentText("Podaci označeni crvenom bojom su pogrešni, ili nedostaju");*/
+            alert.show();
+        }
 
-        /*Parent root = null;
-        try {
-            Stage myStage = new Stage();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/sample.fxml"));
-            loader.load();
-            novi=loader.getController();
-            myStage.setTitle("Formular");
-            myStage.setScene(new Scene(loader.getRoot(), 200, 200));
-            myStage.setResizable(false);
-            myStage.show();
-            myStage.setOnCloseRequest(event -> {
-                if (!formularValidan()) {
-                    event.consume();
-                    Alert alert = new Alert(Alert.AlertType.ERROR);
-                    alert.setTitle("Nije validno");
-                    alert.setHeaderText("Popunjeni formular nije validan");
-                    alert.setContentText("Ime i prezime je prazno");
-                    alert.show();
-                }
-            });
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
 
     }
 
