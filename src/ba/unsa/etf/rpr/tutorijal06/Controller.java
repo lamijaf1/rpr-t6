@@ -10,6 +10,8 @@ import javafx.scene.control.TextField;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Controller {
     public ComboBox mjestoRod;
@@ -105,7 +107,6 @@ public class Controller {
                 }
             }
         });
-
         jmbgField.textProperty().addListener(new ChangeListener<String>() {
             @Override
             public void changed(ObservableValue<? extends String> observableValue, String o, String n) {
@@ -157,9 +158,31 @@ public class Controller {
         String datum=datumField.getText();
         String jmbg=jmbgField.getText();
         String email=emailField.getText();
+        if(isValidEmail(email)==true){
+            emailValidno=true;
+            System.out.println(email);
+        }
+        else emailValidno=false;
+
         System.out.println(rod);
         System.out.println(ime+prezime+datum+jmbg+email);
 
     }
+    public static boolean isValidEmail(String enteredEmail){
+        String EMAIL_REGIX = "^[\\\\w!#$%&’*+/=?`{|}~^-]+(?:\\\\.[\\\\w!#$%&’*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\\\.)+[a-zA-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(EMAIL_REGIX);
+        Matcher matcher = pattern.matcher(enteredEmail);
+        return ((!enteredEmail.isEmpty()) && (enteredEmail!=null) && (matcher.matches()));
+    }
+    /*public static boolean isValidEmailAddress(String email) {
+        boolean stricterFilter = true;
+        String stricterFilterString = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}";
+        String laxString = ".+@.+\\.[A-Za-z]{2}[A-Za-z]*";
+        String emailRegex = stricterFilter ? stricterFilterString : laxString;
+        java.util.regex.Pattern p = java.util.regex.Pattern.compile(emailRegex);
+        java.util.regex.Matcher m = p.matcher(email);
+        return m.matches();
+    }*/
+
 
 }
