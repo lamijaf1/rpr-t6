@@ -5,11 +5,14 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TextField;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.ParsePosition;
@@ -17,12 +20,15 @@ import java.text.SimpleDateFormat;
 import java.time.DateTimeException;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Controller {
+
     public static final Pattern VALID_EMAIL_ADDRESS_REGEX =
             Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+
     public ComboBox mjestoRod;
     public ChoiceBox status;
     public ChoiceBox godina;
@@ -42,42 +48,53 @@ public class Controller {
     private boolean jmbgValidno;
     private boolean datumValidno;
     private boolean emailValidno;
-    public String uporediSaJmbg="";
-    public String datumZaIspis="";
+    public String uporediSaJmbg = "";
+    public String datumZaIspis = "";
+    private Controller novi;
+    public boolean formularValidan() {
+        return (imeValidno && prezimeValidno && indeksValidan && jmbgValidno && datumValidno && emailValidno);
+    }
+
     private boolean validnoImePrezime(String n) {
-        if(n.length()<2 || n.length()>20)return false;
-        for(int i=0;i<n.length();i++){
-            if(!(n.charAt(i)>='A'&& n.charAt(i)<='Ž') && !(n.charAt(i)>='a'&& n.charAt(i)<='ž') ) return false;
+        if (n.length() < 2 || n.length() > 20) return false;
+        for (int i = 0; i < n.length(); i++) {
+            if (!(n.charAt(i) >= 'A' && n.charAt(i) <= 'Ž') && !(n.charAt(i) >= 'a' && n.charAt(i) <= 'ž'))
+                return false;
         }
         return !n.trim().isEmpty();
     }
-    private boolean validanUnosDatum(String n){
+
+    private boolean validanUnosDatum(String n) {
         return !n.trim().isEmpty();
     }
+
     private boolean validanUnos(String n) {
-        if(n.length()!=13)return false;
-        for(int i=0;i<n.length();i++){
-            if(!(n.charAt(i)>='0'&& n.charAt(i)<='9'))return false;
+        if (n.length() != 13) return false;
+        for (int i = 0; i < n.length(); i++) {
+            if (!(n.charAt(i) >= '0' && n.charAt(i) <= '9')) return false;
         }
         return !n.trim().isEmpty();
     }
+
     private boolean validanUnosEmail(String n) {
-        for(int i=0;i<n.length();i++)if(n.charAt(i)=='@')return true;
+        for (int i = 0; i < n.length(); i++) if (n.charAt(i) == '@') return true;
         return false;
     }
+
     private boolean validanIndeks(String n) {
-        if(n.length()>5)return false;
-        for(int i=0;i<n.length();i++) if(!(n.charAt(i)>='0'&& n.charAt(i)<'9')) return false;
+        if (n.length() > 5) return false;
+        for (int i = 0; i < n.length(); i++) if (!(n.charAt(i) >= '0' && n.charAt(i) < '9')) return false;
         return !n.trim().isEmpty();
     }
+
     @FXML
     public void initialize() {
         imeValidno = false;
-        prezimeValidno=false;
-        indeksValidan=false;
-        jmbgValidno=false;
-        datumValidno=false;
-        emailValidno=false;
+        prezimeValidno = false;
+        indeksValidan = false;
+        jmbgValidno = false;
+        datumValidno = false;
+        emailValidno = false;
         imeField.getStyleClass().add("poljeNijeIspravno");
         prezimeField.getStyleClass().add("poljeNijeIspravno");
         indeksField.getStyleClass().add("poljeNijeIspravno");
@@ -90,7 +107,7 @@ public class Controller {
                 if (validnoImePrezime(n)) {
                     imeField.getStyleClass().removeAll("poljeNijeIspravno");
                     imeField.getStyleClass().add("poljeIspravno");
-                    imeValidno= true;
+                    imeValidno = true;
                 } else {
                     imeField.getStyleClass().removeAll("poljeIspravno");
                     imeField.getStyleClass().add("poljeNijeIspravno");
@@ -104,7 +121,7 @@ public class Controller {
                 if (validnoImePrezime(n)) {
                     prezimeField.getStyleClass().removeAll("poljeNijeIspravno");
                     prezimeField.getStyleClass().add("poljeIspravno");
-                    prezimeValidno= true;
+                    prezimeValidno = true;
                 } else {
                     prezimeField.getStyleClass().removeAll("poljeIspravno");
                     prezimeField.getStyleClass().add("poljeNijeIspravno");
@@ -118,7 +135,7 @@ public class Controller {
                 if (validanIndeks(n)) {
                     indeksField.getStyleClass().removeAll("poljeNijeIspravno");
                     indeksField.getStyleClass().add("poljeIspravno");
-                    indeksValidan= true;
+                    indeksValidan = true;
                 } else {
                     indeksField.getStyleClass().removeAll("poljeIspravno");
                     indeksField.getStyleClass().add("poljeNijeIspravno");
@@ -132,7 +149,7 @@ public class Controller {
                 if (validanUnos(n)) {
                     jmbgField.getStyleClass().removeAll("poljeNijeIspravno");
                     jmbgField.getStyleClass().add("poljeIspravno");
-                    jmbgValidno= true;
+                    jmbgValidno = true;
                 } else {
                     jmbgField.getStyleClass().removeAll("poljeIspravno");
                     jmbgField.getStyleClass().add("poljeNijeIspravno");
@@ -146,7 +163,7 @@ public class Controller {
                 if (validanUnosDatum(n)) {
                     datumField.getStyleClass().removeAll("poljeNijeIspravno");
                     datumField.getStyleClass().add("poljeIspravno");
-                    datumValidno= true;
+                    datumValidno = true;
                 } else {
                     datumField.getStyleClass().removeAll("poljeIspravno");
                     datumField.getStyleClass().add("poljeNijeIspravno");
@@ -160,7 +177,7 @@ public class Controller {
                 if (validanUnosEmail(n)) {
                     emailField.getStyleClass().removeAll("poljeNijeIspravno");
                     emailField.getStyleClass().add("poljeIspravno");
-                    emailValidno= true;
+                    emailValidno = true;
                 } else {
                     emailField.getStyleClass().removeAll("poljeIspravno");
                     emailField.getStyleClass().add("poljeNijeIspravno");
@@ -170,49 +187,73 @@ public class Controller {
         });
     }
 
-    public void dugmeKliknuto(ActionEvent actionEvent){
-        String rod=mjestoRod.getEditor().getText();
-        String ime=imeField.getText();
-        String prezime=prezimeField.getText();
-        String datum=datumField.getText();
-        String jmbg=jmbgField.getText();
-        String izdvojiDatum="";
-        if(jmbg.length()==13)izdvojiDatum=jmbg.substring(0,7);
+    public void dugmeKliknuto(ActionEvent actionEvent) {
+        String rod = mjestoRod.getEditor().getText();
+        String ime = imeField.getText();
+        String prezime = prezimeField.getText();
+        String datum = datumField.getText();
+        String jmbg = jmbgField.getText();
+        String izdvojiDatum = "";
+        if (jmbg.length() == 13) izdvojiDatum = jmbg.substring(0, 7);
         //System.out.println(izdvojiDatum);
         if (isDateValid(datum)) {
-                //System.out.println(datum);
-            datumValidno=true;
+            //System.out.println(datum);
+            datumValidno = true;
         } else {
             datumValidno = false;
             datumField.getStyleClass().add("poljeNijeIspravno");
         }
 
-        if( izdvojiDatum!="" && izdvojiDatum.equals(uporediSaJmbg)){
-            jmbgValidno=true;
-           // System.out.println(jmbg);
-        }else{
-            jmbgValidno=false;
+        if (izdvojiDatum != "" && izdvojiDatum.equals(uporediSaJmbg)) {
+            jmbgValidno = true;
+            // System.out.println(jmbg);
+        } else {
+            jmbgValidno = false;
             jmbgField.getStyleClass().add("poljeNijeIspravno");
         }
-        String email=emailField.getText();
-        if(isValidEmail(email)){
-            emailValidno=true;
+        String email = emailField.getText();
+        if (isValidEmail(email)) {
+            emailValidno = true;
 
-        }
-        else {
-            emailValidno=false;
+        } else {
+            emailValidno = false;
             emailField.getStyleClass().add("poljeNijeIspravno");
         }
 
-        if(imeValidno && prezimeValidno && indeksValidan && jmbgValidno && datumValidno && emailValidno){
-            System.out.println("Student: "+ime+" "+prezime+" ( "+indeksField.getText()+" )");
-            System.out.println("JMBG: "+ jmbg+", datum rođenja: "+ datumZaIspis);
-            System.out.println("Ulica stanovanja: "+ ulicaField.getText()+ ",broj telefona: "+ telefonField.getText());
-            System.out.println("Email adresa: "+ email);
-            System.out.println(status.getValue().toString()+" student, smjer: "+smjer.getValue().toString()+"godina: "+godina.getValue());
-            if(pripadnost.isSelected()) System.out.println("Postoji neka od boračke pripadnosti");
+        if (formularValidan()) {
+            System.out.println("Student: " + ime + " " + prezime + " ( " + indeksField.getText() + " )");
+            System.out.println("JMBG: " + jmbg + ", datum rođenja: " + datumZaIspis);
+            System.out.println("Ulica stanovanja: " + ulicaField.getText() + ",broj telefona: " + telefonField.getText());
+            System.out.println("Email adresa: " + email);
+            System.out.println(status.getValue().toString() + " student, smjer: " + smjer.getValue().toString() + " godina: " + godina.getValue());
+            if (pripadnost.isSelected()) System.out.println("Postoji neka od boračke pripadnosti");
             else System.out.println("Ne postoji nikakva boračka pripadnost");
         }
+
+        /*Parent root = null;
+        try {
+            Stage myStage = new Stage();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/sample.fxml"));
+            loader.load();
+            novi=loader.getController();
+            myStage.setTitle("Formular");
+            myStage.setScene(new Scene(loader.getRoot(), 200, 200));
+            myStage.setResizable(false);
+            myStage.show();
+            myStage.setOnCloseRequest(event -> {
+                if (!formularValidan()) {
+                    event.consume();
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Nije validno");
+                    alert.setHeaderText("Popunjeni formular nije validan");
+                    alert.setContentText("Ime i prezime je prazno");
+                    alert.show();
+                }
+            });
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
 
     }
 
