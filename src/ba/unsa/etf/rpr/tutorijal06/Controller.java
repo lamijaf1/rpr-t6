@@ -219,7 +219,7 @@ public class Controller {
         if(telephoneValidno)telefonField.getStyleClass().add("poljeIspravno");
         if (formularValidan()) {
             System.out.println("Student: " + ime + " " + prezime + " ( " + indeksField.getText() + " )");
-            System.out.println("JMBG: " + jmbg + ", datum rođenja: " + datumZaIspis);
+            System.out.println("JMBG: " + jmbg + ", datum rođenja: " + datumZaIspis+", mjesto rodđenja: "+ rod);
             System.out.println("Ulica stanovanja: " + ulicaField.getText() + ",broj telefona: " + telefonField.getText());
             System.out.println("Email adresa: " + email);
             System.out.println(status.getValue().toString() + " student, smjer: " + smjer.getValue().toString() + " godina: " + godina.getValue());
