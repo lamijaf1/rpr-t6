@@ -284,7 +284,7 @@ public class Controller {
         return dateIsValid;
 
     }
-    public boolean isJmbgValid(String jmbg){
+    public static boolean  isJmbgValid(String jmbg){
             int politickaRegija = (jmbg.charAt(7) - '0') * 10 + (jmbg.charAt(8) - '0');
             if (politickaRegija < 0 || politickaRegija > 96) return false;
             int jedinstveniBroj = (jmbg.charAt(9) - '0') * 100 + (jmbg.charAt(10) - '0') * 10 + (jmbg.charAt(11) - '0');

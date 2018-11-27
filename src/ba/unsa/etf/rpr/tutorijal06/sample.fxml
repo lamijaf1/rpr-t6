@@ -49,17 +49,17 @@
       <Label prefHeight="26.0" prefWidth="102.0" text="Broj indeksa:" GridPane.rowIndex="2" />
       <TextField fx:id="imeField" GridPane.columnIndex="1" >
           <tooltip>
-              <Tooltip text="Unesite vaše ime " />
+              <Tooltip text="Unesite vaše ime" />
           </tooltip>
       </TextField>
       <TextField fx:id="prezimeField"    GridPane.columnIndex="1" GridPane.rowIndex="1">
           <tooltip>
-              <Tooltip text="Unesite vaše prezime " />
+              <Tooltip text="Unesite vaše prezime" />
           </tooltip>
       </TextField>
       <TextField fx:id="indeksField" GridPane.columnIndex="1" GridPane.rowIndex="2" >
           <tooltip>
-              <Tooltip text="Unesite indeks " />
+              <Tooltip text="Unesite indeks" />
           </tooltip>
       </TextField>
       <Separator prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
